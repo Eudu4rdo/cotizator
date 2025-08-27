@@ -16,4 +16,4 @@ spring:
 b3:
   api:
     url: https://brapi.dev/api/
-    token: #OUR Token
+    token: #Your Token
