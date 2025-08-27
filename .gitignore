@@ -56,3 +56,6 @@ build/
 *.zip
 *.tar.gz
 *.rar
+
+#application.yml
+src/main/resources/application.yml
