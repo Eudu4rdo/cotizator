@@ -65,7 +65,7 @@ public class StocksController {
         CalculateRequest response = new CalculateRequest(strict_limit);
         double total_expendend = 0;
         for (Stock stock : stocks) {
-            int stock_qtd = stockService.CalculateQtd(stock.getValue(), total_amount, stock.getPercentage(), strict_limit);
+            int stock_qtd = stockService.calculateQtd(stock.getValue(), total_amount, stock.getPercentage(), strict_limit);
             total_expendend += (stock_qtd * stock.getValue());
             stock.setQtd(stock_qtd);
             stock = stockRepository.save(stock);
