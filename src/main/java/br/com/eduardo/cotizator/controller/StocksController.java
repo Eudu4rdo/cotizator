@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,20 +64,22 @@ public class StocksController {
         if(stocks.isEmpty()){
             return ResponseEntity.status(404).body("É necessário cadastrar Ações para calcular carteira");
         }
-
-        CalculateRequest response = new CalculateRequest(strict_limit);
+        CalculateRequest response = new CalculateRequest();
         double total_expendend = 0;
+        List<Stock> updatedStocks = new ArrayList<>();
         for (Stock stock : stocks) {
             int stock_qtd = stockService.calculateQtd(stock.getValue(), total_amount, stock.getPercentage(), strict_limit);
-            total_expendend += (stock_qtd * stock.getValue());
             stock.setQtd(stock_qtd);
-            stock = stockRepository.save(stock);
+            total_expendend += (stock_qtd * stock.getValue());
+            updatedStocks.add(stockRepository.save(stock));
         }
         response.setAmount(total_amount);
         response.setStrict_limit(strict_limit);
         response.setTotal_expended(total_expendend);
-        response.setVariance(total_amount - total_expendend);
-        response.setStocks(stocks);
+        double variance = total_amount - total_expendend;
+        BigDecimal bd = BigDecimal.valueOf(variance).setScale(2, RoundingMode.HALF_UP);
+        response.setVariance(bd.doubleValue());
+        response.setStocks(updatedStocks);
         return ResponseEntity.ok(response);
     }
 }

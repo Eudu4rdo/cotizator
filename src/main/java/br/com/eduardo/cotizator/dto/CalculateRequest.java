@@ -14,10 +14,6 @@ public class CalculateRequest {
     private boolean strict_limit;
     private List<Stock> stocks;
 
-    public CalculateRequest(boolean strict_limit) {
-        this.strict_limit = true;
-    }
-
     public double getAmount() {
         return amount;
     }
