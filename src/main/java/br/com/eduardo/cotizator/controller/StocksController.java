@@ -55,7 +55,7 @@ public class StocksController {
 
     @PostMapping("calculate")
     public ResponseEntity<?> calculate(@RequestBody @Validated CalculateRequest request) {
-        float total_amount = request.getAmount();
+        double total_amount = request.getAmount();
         boolean strict_limit = request.isStrict_limit();
         List<Stock> stocks = stockRepository.findAll();
         if(stocks.isEmpty()){
@@ -65,15 +65,8 @@ public class StocksController {
         CalculateRequest response = new CalculateRequest(strict_limit);
         double total_expendend = 0;
         for (Stock stock : stocks) {
-            double stock_amount = total_amount * stock.getPercentage();
-            double stock_value = stock.getValue();
-            int stock_qtd;
-            if (strict_limit) {
-                stock_qtd = (int) Math.ceil(stock_amount / stock_value);
-            } else {
-                stock_qtd = (int) Math.floor(stock_amount / stock_value);
-            }
-            total_expendend += (stock_qtd * stock_value);
+            int stock_qtd = stockService.CalculateQtd(stock.getValue(), total_amount, stock.getPercentage(), strict_limit);
+            total_expendend += (stock_qtd * stock.getValue());
             stock.setQtd(stock_qtd);
             stock = stockRepository.save(stock);
         }

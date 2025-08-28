@@ -11,8 +11,8 @@ public class Stock {
     private String cod;
     private String name;
     @Column(name = "stock_value")
-    private Double value;
-    private Float percentage;
+    private double value;
+    private double percentage;
     private Integer qtd;
 
     public String getCod() {
@@ -31,11 +31,11 @@ public class Stock {
         this.name = name;
     }
 
-    public Float getPercentage() {
+    public double getPercentage() {
         return percentage;
     }
 
-    public void setPercentage(Float percentage) {
+    public void setPercentage(double percentage) {
         this.percentage = percentage;
     }
 

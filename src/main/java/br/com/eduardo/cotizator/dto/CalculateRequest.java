@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CalculateRequest {
     @NotNull
-    private float amount;
+    private double amount;
     private Double total_expended;
     private Double variance;
     @NotNull
@@ -18,11 +18,11 @@ public class CalculateRequest {
         this.strict_limit = true;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

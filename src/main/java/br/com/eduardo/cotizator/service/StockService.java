@@ -1,7 +1,6 @@
 package br.com.eduardo.cotizator.service;
 
 import br.com.eduardo.cotizator.dto.StockApiResponse;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -41,6 +40,17 @@ public class StockService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Integer CalculateQtd(Double stock_value, double total_amount, double stock_percentage, boolean strict_limit) {
+        double stock_amount = total_amount * stock_percentage;
+        int stock_qtd;
+        if (strict_limit) {
+            stock_qtd = (int) Math.ceil(stock_amount / stock_value);
+        } else {
+            stock_qtd = (int) Math.floor(stock_amount / stock_value);
+        }
+        return stock_qtd;
     }
 
 }
