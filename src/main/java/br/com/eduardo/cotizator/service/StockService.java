@@ -42,7 +42,7 @@ public class StockService {
         }
     }
 
-    public Integer CalculateQtd(Double stock_value, double total_amount, double stock_percentage, boolean strict_limit) {
+    public Integer CalculateQtd(double stock_value, double total_amount, double stock_percentage, boolean strict_limit) {
         double stock_amount = total_amount * stock_percentage;
         int stock_qtd;
         if (strict_limit) {
