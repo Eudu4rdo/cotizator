@@ -5,6 +5,7 @@ import br.com.eduardo.cotizator.dto.StockApiResponse;
 import br.com.eduardo.cotizator.model.Stock;
 import br.com.eduardo.cotizator.repository.StockRepository;
 import br.com.eduardo.cotizator.service.StockService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,17 @@ public class StocksController {
         stock.setValue(stockData.getResults().getFirst().getRegularMarketPrice());
         stock = stockRepository.save(stock);
         return ResponseEntity.ok(stock);
+    }
+
+    @DeleteMapping("/{cod}")
+    public ResponseEntity<?> delete(@PathVariable String cod) {
+        Optional<Stock> stockData = stockRepository.findByCod(cod);
+        if (stockData.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ação não encontrada");
+        }
+
+        stockRepository.delete(stockData.get());
+        return ResponseEntity.ok("Ação deletada com sucesso");
     }
 
     @PostMapping("calculate")
